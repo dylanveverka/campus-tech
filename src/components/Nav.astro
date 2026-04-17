@@ -1,0 +1,152 @@
+---
+const navLinks = [
+  { href: '/reviews', label: 'Reviews' },
+  { href: '/compare', label: 'Compare' },
+  { href: '/guides', label: 'Guides' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <nav class="nav-inner container" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Campus Tech Home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#3b82f6"/>
+        <text x="16" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold"
+              text-anchor="middle" fill="#fff">C</text>
+      </svg>
+      <span class="logo-text">Campus<span class="logo-accent">Tech</span></span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['nav-link', { active: currentPath.startsWith(link.href) }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <ul role="list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['mobile-nav-link', { active: currentPath.startsWith(link.href) }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--primary);
+    box-shadow: 0 2px 12px rgb(0 0 0 / 0.15);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .logo-text {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .logo-accent { color: #93c5fd; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+  }
+  .nav-link {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link:hover, .nav-link.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+  }
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s;
+  }
+  .mobile-menu {
+    background: var(--primary-dark);
+    padding: 0.75rem 1.25rem 1.25rem;
+  }
+  .mobile-menu ul { list-style: none; }
+  .mobile-nav-link {
+    display: block;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    padding: 0.65rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-nav-link.active { color: #93c5fd; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle') as HTMLButtonElement;
+  const menu = document.getElementById('mobile-menu') as HTMLElement;
+  toggle?.addEventListener('click', () => {
+    const open = menu.hidden;
+    menu.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

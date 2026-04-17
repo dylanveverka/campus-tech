@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ComparisonTable from '../../components/ComparisonTable.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const comparisons = await getCollection('compare');
+  return comparisons.map(comp => ({
+    params: { slug: comp.slug },
+    props: { comp },
+  }));
+}
+
+const { comp } = Astro.props;
+const { Content } = await comp.render();
+---
+
+<BaseLayout
+  title={comp.data.title}
+  description={comp.data.description}
+  type="article"
+>
+  <div class="container compare-wrap">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <a href="/compare">Compare</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span aria-current="page">{comp.data.product1.name} vs {comp.data.product2.name}</span>
+    </nav>
+
+    <header class="compare-header">
+      <h1>{comp.data.title}</h1>
+      <p class="compare-desc">{comp.data.description}</p>
+      <div class="compare-meta">
+        <span class="badge badge-green">Winner: {comp.data.winner}</span>
+        <time datetime={comp.data.publishDate.toISOString()}>
+          {comp.data.publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </div>
+    </header>
+
+    <ComparisonTable
+      product1={comp.data.product1}
+      product2={comp.data.product2}
+      specs={comp.data.specs}
+      winner={comp.data.winner}
+    />
+
+    <div class="prose compare-prose">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .compare-wrap { padding: 2.5rem 1.25rem 4rem; max-width: 900px; }
+  .compare-header { margin-bottom: 2rem; }
+  .compare-desc { font-size: 1.05rem; color: var(--text-muted); margin-top: 0.75rem; max-width: 64ch; }
+  .compare-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+  .compare-prose { margin-top: 2.5rem; }
+</style>

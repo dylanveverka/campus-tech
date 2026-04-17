@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProsConsList from '../../components/ProsConsList.astro';
+import StarRating from '../../components/StarRating.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const reviews = await getCollection('reviews');
+  return reviews.map(review => ({
+    params: { slug: review.slug },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content } = await review.render();
+
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  name: review.data.title,
+  reviewBody: review.data.verdict,
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: review.data.rating,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  itemReviewed: {
+    '@type': 'Product',
+    name: review.data.title.split(':')[0].trim(),
+    offers: {
+      '@type': 'Offer',
+      price: review.data.price.replace(/[^0-9.]/g, ''),
+      priceCurrency: 'USD',
+    },
+  },
+  author: {
+    '@type': 'Organization',
+    name: 'Campus Tech',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Campus Tech',
+    url: 'https://campustech.review',
+  },
+  datePublished: review.data.publishDate.toISOString().split('T')[0],
+};
+
+const ratingColor = review.data.rating >= 4.5
+  ? '#16a34a'
+  : review.data.rating >= 3.5
+  ? '#d97706'
+  : '#dc2626';
+---
+
+<BaseLayout
+  title={review.data.title}
+  description={review.data.description}
+  ogImage={review.data.image}
+  type="article"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(reviewSchema)} />
+
+  <article>
+    <!-- Hero -->
+    <header class="review-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">›</span>
+          <a href="/reviews">Reviews</a>
+          <span class="breadcrumb-sep" aria-hidden="true">›</span>
+          <span aria-current="page">{review.data.category}</span>
+        </nav>
+
+        <div class="review-header-grid">
+          <div class="review-header-text">
+            <span class="badge badge-blue">{review.data.category}</span>
+            <h1 class="mt-2">{review.data.title}</h1>
+            <p class="review-desc mt-2">{review.data.description}</p>
+
+            <div class="review-meta mt-3">
+              <div class="review-score" style={`--score-color: ${ratingColor}`}>
+                <span class="score-number">{review.data.rating.toFixed(1)}</span>
+                <span class="score-label">out of 5</span>
+              </div>
+              <div class="review-stars-block">
+                <StarRating rating={review.data.rating} size="lg" showNumber={false} />
+                <span class="review-date">
+                  {review.data.publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-header-aside">
+            <img
+              src={review.data.image}
+              alt={review.data.title.split(':')[0]}
+              width="480"
+              height="270"
+              class="review-hero-img"
+            />
+            <div class="buy-box">
+              <div class="buy-box-price">{review.data.price}</div>
+              <AffiliateButton asin={review.data.asin} href={review.data.affiliateUrl} size="lg" />
+              <p class="buy-box-note">
+                <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                Affiliate link. We earn a small commission.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Verdict banner -->
+    <div class="verdict-banner">
+      <div class="container">
+        <div class="verdict-inner">
+          <strong>Verdict:</strong>
+          <p>{review.data.verdict}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="container review-body-grid">
+      <div class="review-content">
+        <ProsConsList pros={review.data.pros} cons={review.data.cons} />
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+
+      <aside class="review-sidebar">
+        <div class="sidebar-buy-box card">
+          <img
+            src={review.data.image}
+            alt={review.data.title.split(':')[0]}
+            width="280"
+            height="158"
+            loading="lazy"
+          />
+          <div class="sidebar-buy-body">
+            <h3>{review.data.title.split(':')[0]}</h3>
+            <StarRating rating={review.data.rating} size="md" />
+            <div class="sidebar-price">{review.data.price}</div>
+            <AffiliateButton asin={review.data.asin} href={review.data.affiliateUrl} />
+            <p class="buy-box-note mt-2">
+              <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+              </svg>
+              Affiliate link — no extra cost to you.
+            </p>
+          </div>
+        </div>
+
+        <div class="sidebar-compare card">
+          <div class="sidebar-section-head">Compare</div>
+          <a href="/compare" class="sidebar-compare-link">
+            See laptop comparisons →
+          </a>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .review-hero {
+    background: var(--bg-secondary);
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .review-header-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+  .review-desc { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
+  .review-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .review-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--score-color, #16a34a);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 0.5rem 1rem;
+    min-width: 72px;
+  }
+  .score-number { font-size: 1.75rem; font-weight: 900; line-height: 1; }
+  .score-label { font-size: 0.7rem; opacity: 0.85; }
+  .review-stars-block { display: flex; flex-direction: column; gap: 0.35rem; }
+  .review-date { font-size: 0.8rem; color: var(--text-muted); }
+
+  .review-hero-img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+  .buy-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .buy-box-price { font-size: 1.5rem; font-weight: 900; color: var(--dark); }
+  .buy-box-note {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .verdict-banner {
+    background: #eff6ff;
+    border-bottom: 1px solid #bfdbfe;
+    padding: 1rem 0;
+  }
+  .verdict-inner {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.95rem;
+  }
+  .verdict-inner strong { white-space: nowrap; color: var(--primary); }
+  .verdict-inner p { margin: 0; color: var(--text); }
+
+  .review-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+    align-items: start;
+  }
+
+  .sidebar-buy-box { overflow: hidden; }
+  .sidebar-buy-box img { width: 100%; height: 158px; object-fit: cover; }
+  .sidebar-buy-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sidebar-buy-body h3 { font-size: 0.95rem; margin: 0; }
+  .sidebar-price { font-size: 1.2rem; font-weight: 900; }
+  .sidebar-compare { padding: 1rem; margin-top: 1rem; }
+  .sidebar-section-head {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .sidebar-compare-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); }
+
+  @media (max-width: 1024px) {
+    .review-header-grid { grid-template-columns: 1fr; }
+    .review-body-grid { grid-template-columns: 1fr; }
+    .review-sidebar { display: none; }
+  }
+</style>

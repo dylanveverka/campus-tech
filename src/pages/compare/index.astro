@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const comparisons = await getCollection('compare');
+const sorted = comparisons.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout
+  title="Tech Comparisons for College Students"
+  description="Side-by-side tech comparisons for college students. MacBook vs Dell, iPad vs laptop, and more — with a clear winner and honest analysis."
+>
+  <div class="container compare-index-wrap">
+    <header class="page-header">
+      <h1>Compare Products</h1>
+      <p>Can't decide between two products? We put them head-to-head so you don't have to guess.</p>
+    </header>
+
+    <div class="compare-list">
+      {sorted.map(comp => (
+        <a href={`/compare/${comp.slug}`} class="compare-card card">
+          <div class="compare-vs">
+            <div class="compare-product-thumb">
+              {comp.data.product1.image
+                ? <img src={comp.data.product1.image} alt={comp.data.product1.name} width="120" height="80" loading="lazy" />
+                : <div class="thumb-placeholder">{comp.data.product1.name[0]}</div>
+              }
+              <span>{comp.data.product1.name}</span>
+            </div>
+            <div class="vs-badge">VS</div>
+            <div class="compare-product-thumb">
+              {comp.data.product2.image
+                ? <img src={comp.data.product2.image} alt={comp.data.product2.name} width="120" height="80" loading="lazy" />
+                : <div class="thumb-placeholder">{comp.data.product2.name[0]}</div>
+              }
+              <span>{comp.data.product2.name}</span>
+            </div>
+          </div>
+          <div class="compare-card-body">
+            <h3>{comp.data.title}</h3>
+            <p>{comp.data.description}</p>
+            <div class="compare-winner">
+              <span>Winner: <strong>{comp.data.winner}</strong></span>
+              <span class="compare-read">Read comparison →</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .compare-index-wrap { padding: 2.5rem 1.25rem 4rem; }
+  .page-header { margin-bottom: 2.5rem; }
+  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin-top: 0.5rem; }
+  .compare-list { display: flex; flex-direction: column; gap: 1.25rem; max-width: 800px; }
+  .compare-card { display: grid; grid-template-columns: 360px 1fr; text-decoration: none; color: var(--text); }
+  .compare-card:hover { text-decoration: none; color: var(--text); }
+  .compare-vs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+  }
+  .compare-product-thumb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .compare-product-thumb img {
+    width: 80px;
+    height: 55px;
+    object-fit: contain;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .thumb-placeholder {
+    width: 80px;
+    height: 55px;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-radius: var(--radius);
+  }
+  .compare-product-thumb span { font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2; }
+  .vs-badge {
+    background: var(--dark);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 900;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .compare-card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .compare-card-body h3 { font-size: 1rem; }
+  .compare-card-body p { font-size: 0.875rem; color: var(--text-muted); flex: 1; margin: 0; }
+  .compare-winner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  .compare-winner strong { color: var(--primary); }
+  .compare-read { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    .compare-card { grid-template-columns: 1fr; }
+    .compare-vs { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>

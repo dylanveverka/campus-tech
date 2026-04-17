@@ -1,0 +1,60 @@
+---
+interface Props {
+  rating: number;
+  size?: 'sm' | 'md' | 'lg';
+  showNumber?: boolean;
+}
+
+const { rating, size = 'md', showNumber = true } = Astro.props;
+const clamped = Math.max(0, Math.min(5, rating));
+const full = Math.floor(clamped);
+const half = clamped - full >= 0.25 && clamped - full < 0.75;
+const empty = 5 - full - (half ? 1 : 0);
+
+const sizes = { sm: 14, md: 18, lg: 24 };
+const px = sizes[size];
+---
+
+<span class:list={['star-rating', `star-${size}`]} aria-label={`${clamped} out of 5 stars`} role="img">
+  {Array.from({ length: full }).map(() => (
+    <svg width={px} height={px} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="star star-full">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.368 2.448a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.539 1.118l-3.368-2.447a1 1 0 00-1.175 0L6.04 18.044c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.057 9.394c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69L9.049 2.927z"/>
+    </svg>
+  ))}
+  {half && (
+    <svg width={px} height={px} viewBox="0 0 20 20" aria-hidden="true" class="star star-half">
+      <defs>
+        <linearGradient id="half-fill">
+          <stop offset="50%" stop-color="currentColor"/>
+          <stop offset="50%" stop-color="#e2e8f0"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#half-fill)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.368 2.448a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.539 1.118l-3.368-2.447a1 1 0 00-1.175 0L6.04 18.044c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.057 9.394c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69L9.049 2.927z"/>
+    </svg>
+  )}
+  {Array.from({ length: empty }).map(() => (
+    <svg width={px} height={px} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="star star-empty">
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.368 2.448a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.539 1.118l-3.368-2.447a1 1 0 00-1.175 0L6.04 18.044c-.784.57-1.838-.196-1.539-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.057 9.394c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69L9.049 2.927z"/>
+    </svg>
+  ))}
+  {showNumber && <span class="rating-number">{clamped.toFixed(1)}</span>}
+</span>
+
+<style>
+  .star-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .star-full { color: #f59e0b; }
+  .star-half { color: #f59e0b; }
+  .star-empty { color: #e2e8f0; }
+  .rating-number {
+    margin-left: 4px;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: var(--text);
+  }
+  .star-sm .rating-number { font-size: 0.8em; }
+  .star-lg .rating-number { font-size: 1em; }
+</style>

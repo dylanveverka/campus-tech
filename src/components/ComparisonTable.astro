@@ -1,0 +1,180 @@
+---
+import StarRating from './StarRating.astro';
+import AffiliateButton from './AffiliateButton.astro';
+
+interface Spec {
+  label: string;
+  product1: string;
+  product2: string;
+  winner?: 'product1' | 'product2' | 'tie';
+}
+
+interface Product {
+  name: string;
+  price: string;
+  rating: number;
+  asin?: string;
+  image?: string;
+  pros: string[];
+  cons: string[];
+}
+
+interface Props {
+  product1: Product;
+  product2: Product;
+  specs: Spec[];
+  winner: string;
+}
+
+const { product1, product2, specs, winner } = Astro.props;
+---
+
+<div class="comparison-wrap">
+  <!-- Header row -->
+  <div class="comp-header">
+    <div class="comp-label-col"></div>
+    <div class:list={['comp-product-col', { 'is-winner': winner === product1.name }]}>
+      {winner === product1.name && <span class="winner-badge">Our Pick</span>}
+      {product1.image && (
+        <img src={product1.image} alt={product1.name} width="200" height="150" loading="lazy" />
+      )}
+      <h3>{product1.name}</h3>
+      <StarRating rating={product1.rating} size="sm" />
+      <p class="comp-price">{product1.price}</p>
+      <AffiliateButton asin={product1.asin} size="sm" />
+    </div>
+    <div class:list={['comp-product-col', { 'is-winner': winner === product2.name }]}>
+      {winner === product2.name && <span class="winner-badge">Our Pick</span>}
+      {product2.image && (
+        <img src={product2.image} alt={product2.name} width="200" height="150" loading="lazy" />
+      )}
+      <h3>{product2.name}</h3>
+      <StarRating rating={product2.rating} size="sm" />
+      <p class="comp-price">{product2.price}</p>
+      <AffiliateButton asin={product2.asin} size="sm" />
+    </div>
+  </div>
+
+  <!-- Specs rows -->
+  <div class="comp-specs">
+    {specs.map(spec => (
+      <div class="comp-row">
+        <div class="comp-label">{spec.label}</div>
+        <div class:list={['comp-cell', { 'cell-winner': spec.winner === 'product1' }]}>
+          {spec.product1}
+          {spec.winner === 'product1' && (
+            <svg class="win-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-label="winner">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          )}
+        </div>
+        <div class:list={['comp-cell', { 'cell-winner': spec.winner === 'product2' }]}>
+          {spec.product2}
+          {spec.winner === 'product2' && (
+            <svg class="win-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-label="winner">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .comparison-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+  .comp-header {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    background: var(--bg-secondary);
+  }
+  .comp-label-col { border-right: 1px solid var(--border); }
+  .comp-product-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    position: relative;
+  }
+  .comp-product-col + .comp-product-col {
+    border-left: 1px solid var(--border);
+  }
+  .is-winner {
+    background: #eff6ff;
+    border-top: 3px solid var(--accent);
+  }
+  .winner-badge {
+    position: absolute;
+    top: -1px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.6rem;
+    border-radius: 0 0 6px 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .comp-product-col img {
+    width: 120px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .comp-product-col h3 {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin: 0;
+  }
+  .comp-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin: 0;
+  }
+  .comp-specs {}
+  .comp-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr;
+    border-top: 1px solid var(--border);
+  }
+  .comp-row:nth-child(even) { background: var(--bg-secondary); }
+  .comp-label {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .comp-cell {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .comp-cell + .comp-cell { border-left: 1px solid var(--border); }
+  .cell-winner {
+    font-weight: 600;
+    color: #166534;
+    background: #f0fdf4;
+  }
+  .win-icon { color: #16a34a; flex-shrink: 0; }
+
+  @media (max-width: 640px) {
+    .comp-header, .comp-row {
+      grid-template-columns: 100px 1fr 1fr;
+    }
+    .comp-label { font-size: 0.75rem; padding: 0.5rem 0.5rem; }
+    .comp-cell { font-size: 0.8rem; padding: 0.5rem 0.5rem; }
+  }
+</style>

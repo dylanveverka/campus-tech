@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+const allReviews = await getCollection('reviews');
+const sorted = allReviews.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const categories = [...new Set(sorted.map(r => r.data.category))].sort();
+---
+
+<BaseLayout
+  title="Tech Reviews for College Students"
+  description="Honest, tested tech reviews for college students. We cover laptops, headphones, keyboards, storage, and more — focused on value for student budgets."
+>
+  <div class="container reviews-wrap">
+    <header class="page-header">
+      <h1>Tech Reviews</h1>
+      <p>Honest reviews tested by students, for students. We focus on real-world performance and value for money.</p>
+    </header>
+
+    <div class="category-filter" role="navigation" aria-label="Filter by category">
+      <a href="/reviews" class="filter-btn active">All</a>
+      {categories.map(cat => (
+        <a href={`/reviews?category=${cat.toLowerCase()}`} class="filter-btn">{cat}</a>
+      ))}
+    </div>
+
+    <div class="grid grid-3 mt-4">
+      {sorted.map(review => (
+        <ProductCard
+          name={review.data.title.split(':')[0]}
+          image={review.data.image}
+          rating={review.data.rating}
+          verdict={review.data.verdict}
+          price={review.data.price}
+          category={review.data.category}
+          slug={review.slug}
+          asin={review.data.asin}
+          affiliateUrl={review.data.affiliateUrl}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .reviews-wrap { padding: 2.5rem 1.25rem 4rem; }
+  .page-header { margin-bottom: 2rem; }
+  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin-top: 0.5rem; }
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .filter-btn {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    text-decoration: none;
+  }
+</style>
