@@ -168,6 +168,13 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "guides": {
+"best-desk-setup-college-students-budget.mdx": {
+	id: "best-desk-setup-college-students-budget.mdx";
+  slug: "best-desk-setup-college-students-budget";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-headphones-studying-college-students.mdx": {
 	id: "best-headphones-studying-college-students.mdx";
   slug: "best-headphones-studying-college-students";
@@ -189,6 +196,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-laptop-stand-college-students.mdx": {
+	id: "best-laptop-stand-college-students.mdx";
+  slug: "best-laptop-stand-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-laptops-for-college.md": {
 	id: "best-laptops-for-college.md";
   slug: "best-laptops-for-college";
@@ -196,6 +210,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".md"] };
+"best-mechanical-keyboard-college-students.mdx": {
+	id: "best-mechanical-keyboard-college-students.mdx";
+  slug: "best-mechanical-keyboard-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-monitor-college-students-under-300.mdx": {
 	id: "best-monitor-college-students-under-300.mdx";
   slug: "best-monitor-college-students-under-300";
