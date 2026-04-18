@@ -175,6 +175,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-blue-light-glasses-college-students.mdx": {
+	id: "best-blue-light-glasses-college-students.mdx";
+  slug: "best-blue-light-glasses-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-budget-gaming-pc-college-students.mdx": {
 	id: "best-budget-gaming-pc-college-students.mdx";
   slug: "best-budget-gaming-pc-college-students";
@@ -199,6 +206,13 @@ declare module 'astro:content' {
 "best-desk-setup-college-students-budget.mdx": {
 	id: "best-desk-setup-college-students-budget.mdx";
   slug: "best-desk-setup-college-students-budget";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-external-hard-drive-college-students.mdx": {
+	id: "best-external-hard-drive-college-students.mdx";
+  slug: "best-external-hard-drive-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -280,9 +294,30 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-printer-college-students.mdx": {
+	id: "best-printer-college-students.mdx";
+  slug: "best-printer-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-smart-speaker-dorm-room.mdx": {
+	id: "best-smart-speaker-dorm-room.mdx";
+  slug: "best-smart-speaker-dorm-room";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-tablet-college-students-not-ipad.mdx": {
 	id: "best-tablet-college-students-not-ipad.mdx";
   slug: "best-tablet-college-students-not-ipad";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-usb-hub-college-students.mdx": {
+	id: "best-usb-hub-college-students.mdx";
+  slug: "best-usb-hub-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
