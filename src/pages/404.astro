@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found — Campus Tech"
+  description="The page you're looking for doesn't exist. Browse our reviews and buying guides instead."
+>
+  <div class="container notfound-wrap">
+    <div class="notfound-content">
+      <span class="notfound-code">404</span>
+      <h1>Page not found</h1>
+      <p>That page doesn't exist or may have moved. Start from somewhere that does:</p>
+      <div class="notfound-links">
+        <a href="/reviews" class="btn btn-primary btn-lg">Browse Reviews</a>
+        <a href="/guides" class="btn btn-outline btn-lg">Buying Guides</a>
+        <a href="/compare" class="btn btn-outline btn-lg">Comparisons</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .notfound-wrap {
+    padding: 5rem 1.25rem;
+    display: flex;
+    justify-content: center;
+  }
+  .notfound-content {
+    text-align: center;
+    max-width: 480px;
+  }
+  .notfound-code {
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .notfound-content h1 { margin-bottom: 0.75rem; }
+  .notfound-content p { color: var(--text-muted); margin-bottom: 2rem; }
+  .notfound-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+</style>

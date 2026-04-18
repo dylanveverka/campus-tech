@@ -37,15 +37,24 @@ const sorted = comparisons.sort((a, b) => b.data.publishDate.getTime() - a.data.
             </div>
           </div>
           <div class="compare-card-body">
-            <h3>{comp.data.title}</h3>
+            <h2>{comp.data.title}</h2>
             <p>{comp.data.description}</p>
-            <div class="compare-winner">
-              <span>Winner: <strong>{comp.data.winner}</strong></span>
+            <div class="compare-footer">
+              <span class="winner-tag">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                Winner: <strong>{comp.data.winner}</strong>
+              </span>
               <span class="compare-read">Read comparison →</span>
             </div>
           </div>
         </a>
       ))}
+    </div>
+
+    <div class="compare-cta">
+      <p>Don't see the comparison you're looking for? <a href="/contact">Let us know</a> and we'll add it.</p>
     </div>
   </div>
 </BaseLayout>
@@ -53,10 +62,20 @@ const sorted = comparisons.sort((a, b) => b.data.publishDate.getTime() - a.data.
 <style>
   .compare-index-wrap { padding: 2.5rem 1.25rem 4rem; }
   .page-header { margin-bottom: 2.5rem; }
-  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin-top: 0.5rem; }
-  .compare-list { display: flex; flex-direction: column; gap: 1.25rem; max-width: 800px; }
-  .compare-card { display: grid; grid-template-columns: 360px 1fr; text-decoration: none; color: var(--text); }
+  .page-header h1 { margin-bottom: 0.5rem; }
+  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin: 0; }
+
+  .compare-list { display: flex; flex-direction: column; gap: 1.25rem; max-width: 860px; }
+
+  .compare-card {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
   .compare-card:hover { text-decoration: none; color: var(--text); }
+
   .compare-vs {
     display: flex;
     align-items: center;
@@ -80,6 +99,7 @@ const sorted = comparisons.sort((a, b) => b.data.publishDate.getTime() - a.data.
     border-radius: var(--radius);
     border: 1px solid var(--border);
     background: #fff;
+    padding: 4px;
   }
   .thumb-placeholder {
     width: 80px;
@@ -93,31 +113,81 @@ const sorted = comparisons.sort((a, b) => b.data.publishDate.getTime() - a.data.
     font-weight: 700;
     border-radius: var(--radius);
   }
-  .compare-product-thumb span { font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2; }
+  .compare-product-thumb span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--text);
+  }
   .vs-badge {
     background: var(--dark);
     color: #fff;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 900;
     padding: 0.3rem 0.5rem;
     border-radius: 6px;
     flex-shrink: 0;
+    letter-spacing: 0.05em;
   }
-  .compare-card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .compare-card-body h3 { font-size: 1rem; }
-  .compare-card-body p { font-size: 0.875rem; color: var(--text-muted); flex: 1; margin: 0; }
-  .compare-winner {
+
+  .compare-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .compare-card-body h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--dark);
+    margin: 0;
+  }
+  .compare-card-body p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    flex: 1;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .compare-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    gap: 0.5rem;
   }
-  .compare-winner strong { color: var(--primary); }
-  .compare-read { color: var(--accent); font-weight: 600; }
+  .winner-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #166534;
+    font-size: 0.85rem;
+  }
+  .winner-tag svg { color: #16a34a; flex-shrink: 0; }
+  .winner-tag strong { color: var(--primary); }
+  .compare-read {
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .compare-cta {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    max-width: 860px;
+  }
+  .compare-cta a { font-weight: 600; }
 
   @media (max-width: 640px) {
     .compare-card { grid-template-columns: 1fr; }
-    .compare-vs { border-right: none; border-bottom: 1px solid var(--border); }
+    .compare-vs { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
+    .compare-card-body { padding: 1rem; }
   }
 </style>

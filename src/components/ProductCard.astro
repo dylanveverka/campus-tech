@@ -22,17 +22,19 @@ const { name, image, rating, verdict, price, category, slug, asin, affiliateUrl 
     <img src={image} alt={name} width="400" height="225" loading="lazy" />
   </a>
   <div class="card-body">
-    <span class="badge badge-blue card-category">{category}</span>
+    <div class="card-top">
+      <span class="badge badge-blue card-category">{category}</span>
+    </div>
     <h3 class="card-title">
       <a href={`/reviews/${slug}`}>{name}</a>
     </h3>
     <div class="card-rating">
-      <StarRating rating={rating} size="sm" />
+      <StarRating rating={rating} size="sm" showNumber={true} />
     </div>
     <p class="card-verdict">{verdict}</p>
-    <div class="card-footer">
-      <span class="card-price">{price}</span>
-      <AffiliateButton asin={asin} href={affiliateUrl} size="sm" text="View Deal" />
+    <div class="card-actions">
+      <a href={`/reviews/${slug}`} class="read-link">Read full review →</a>
+      <AffiliateButton asin={asin} href={affiliateUrl} size="sm" text="Check Price" />
     </div>
   </div>
 </article>
@@ -54,14 +56,16 @@ const { name, image, rating, verdict, price, category, slug, asin, affiliateUrl 
     padding: 1.25rem;
     gap: 0.5rem;
   }
-  .card-category { margin-bottom: 0.1rem; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; }
+  .card-category { }
   .card-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
+    font-weight: 700;
     line-height: 1.3;
     margin: 0;
   }
   .card-title a { color: var(--dark); text-decoration: none; }
-  .card-title a:hover { color: var(--accent); }
+  .card-title a:hover { color: var(--accent); text-decoration: none; }
   .card-rating { display: flex; align-items: center; }
   .card-verdict {
     font-size: 0.875rem;
@@ -70,17 +74,22 @@ const { name, image, rating, verdict, price, category, slug, asin, affiliateUrl 
     flex: 1;
     margin: 0;
   }
-  .card-footer {
+  .card-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 0.75rem;
     padding-top: 0.75rem;
     border-top: 1px solid var(--border);
+    gap: 0.5rem;
   }
-  .card-price {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--dark);
+  .read-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
+  .read-link:hover { text-decoration: underline; }
 </style>

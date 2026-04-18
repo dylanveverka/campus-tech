@@ -161,10 +161,9 @@ const ratingColor = review.data.rating >= 4.5
         </div>
 
         <div class="sidebar-compare card">
-          <div class="sidebar-section-head">Compare</div>
-          <a href="/compare" class="sidebar-compare-link">
-            See laptop comparisons →
-          </a>
+          <div class="sidebar-section-head">More to Explore</div>
+          <a href="/compare" class="sidebar-compare-link">Browse all comparisons →</a>
+          <a href="/guides" class="sidebar-compare-link mt-1">View buying guides →</a>
         </div>
       </aside>
     </div>
@@ -213,15 +212,15 @@ const ratingColor = review.data.rating >= 4.5
   }
   .buy-box {
     background: var(--bg);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 1.25rem;
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    align-items: flex-start;
   }
+  .buy-box :global(.affiliate-btn) { width: 100%; justify-content: center; }
   .buy-box-price { font-size: 1.5rem; font-weight: 900; color: var(--dark); }
   .buy-box-note {
     display: flex;
@@ -263,6 +262,7 @@ const ratingColor = review.data.rating >= 4.5
     flex-direction: column;
     gap: 0.5rem;
   }
+  .sidebar-buy-body :global(.affiliate-btn) { width: 100%; justify-content: center; }
   .sidebar-buy-body h3 { font-size: 0.95rem; margin: 0; }
   .sidebar-price { font-size: 1.2rem; font-weight: 900; }
   .sidebar-compare { padding: 1rem; margin-top: 1rem; }

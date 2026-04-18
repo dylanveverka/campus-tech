@@ -16,31 +16,35 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
   <div class="container reviews-wrap">
     <header class="page-header">
       <h1>Tech Reviews</h1>
-      <p>Honest reviews tested by students, for students. We focus on real-world performance and value for money.</p>
+      <p>Honest reviews tested by students, for students. Focused on real-world performance and value for money.</p>
     </header>
 
     <div class="category-filter" role="navigation" aria-label="Filter by category">
-      <a href="/reviews" class="filter-btn active">All</a>
+      <button class="filter-btn active" data-filter="all">All</button>
       {categories.map(cat => (
-        <a href={`/reviews?category=${cat.toLowerCase()}`} class="filter-btn">{cat}</a>
+        <button class="filter-btn" data-filter={cat.toLowerCase()}>{cat}</button>
       ))}
     </div>
 
-    <div class="grid grid-3 mt-4">
+    <div class="grid grid-3 mt-4" id="reviews-grid">
       {sorted.map(review => (
-        <ProductCard
-          name={review.data.title.split(':')[0]}
-          image={review.data.image}
-          rating={review.data.rating}
-          verdict={review.data.verdict}
-          price={review.data.price}
-          category={review.data.category}
-          slug={review.slug}
-          asin={review.data.asin}
-          affiliateUrl={review.data.affiliateUrl}
-        />
+        <div class="review-item" data-cat={review.data.category.toLowerCase()}>
+          <ProductCard
+            name={review.data.title.split(':')[0]}
+            image={review.data.image}
+            rating={review.data.rating}
+            verdict={review.data.verdict}
+            price={review.data.price}
+            category={review.data.category}
+            slug={review.slug}
+            asin={review.data.asin}
+            affiliateUrl={review.data.affiliateUrl}
+          />
+        </div>
       ))}
     </div>
+
+    <p class="no-results" id="no-results" hidden>No reviews found in this category yet.</p>
   </div>
 </BaseLayout>
 
@@ -48,6 +52,7 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
   .reviews-wrap { padding: 2.5rem 1.25rem 4rem; }
   .page-header { margin-bottom: 2rem; }
   .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin-top: 0.5rem; }
+
   .category-filter {
     display: flex;
     flex-wrap: wrap;
@@ -61,13 +66,65 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-muted);
-    text-decoration: none;
+    background: var(--bg);
+    cursor: pointer;
     transition: all 0.15s;
+    font-family: var(--font-sans);
   }
-  .filter-btn:hover, .filter-btn.active {
+  .filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .filter-btn.active {
     background: var(--primary);
     border-color: var(--primary);
     color: #fff;
-    text-decoration: none;
+  }
+
+  .review-item { display: contents; }
+  .review-item.hidden { display: none; }
+
+  .no-results {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem 0;
+    font-size: 1rem;
   }
 </style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.review-item');
+  const noResults = document.getElementById('no-results') as HTMLElement;
+
+  function applyFilter(cat: string) {
+    let visible = 0;
+    items.forEach(item => {
+      const match = cat === 'all' || item.dataset.cat === cat;
+      item.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    noResults.hidden = visible > 0;
+    buttons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.filter === cat);
+    });
+    // Update URL without navigating
+    const url = new URL(window.location.href);
+    if (cat === 'all') {
+      url.searchParams.delete('category');
+    } else {
+      url.searchParams.set('category', cat);
+    }
+    history.replaceState(null, '', url.toString());
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyFilter(btn.dataset.filter ?? 'all');
+    });
+  });
+
+  // Apply filter from URL on load (handles footer deep links)
+  const initialCat = new URL(window.location.href).searchParams.get('category') ?? 'all';
+  if (initialCat !== 'all') applyFilter(initialCat);
+</script>

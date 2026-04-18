@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy — Campus Tech"
+  description="How Campus Tech collects, uses, and protects your data. Read our privacy policy."
+>
+  <div class="container privacy-wrap">
+    <header class="page-header">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last updated: April 2026</p>
+    </header>
+
+    <div class="prose privacy-prose">
+      <h2>Overview</h2>
+      <p>
+        Campus Tech ("we", "us", or "our") operates campustech.review. This page informs you of our
+        policies regarding the collection, use, and disclosure of personal data when you use our site.
+      </p>
+
+      <h2>Information We Collect</h2>
+      <p>
+        Campus Tech is a static content site. We do not run our own servers or databases, and we do
+        not directly collect personal information beyond what is submitted through our contact form.
+      </p>
+      <ul>
+        <li><strong>Contact form submissions</strong> — If you submit a message via our contact form, your name, email address, and message are collected and processed by Netlify Forms. We use this information only to respond to your inquiry.</li>
+        <li><strong>Analytics</strong> — We may use privacy-respecting analytics tools to understand aggregate traffic patterns (page views, referral sources). We do not use advertising-based trackers or build individual user profiles.</li>
+        <li><strong>Cookies</strong> — Our site itself does not set cookies. Third-party services (such as Amazon, via affiliate links you click) may set their own cookies subject to their privacy policies.</li>
+      </ul>
+
+      <h2>Affiliate Links</h2>
+      <p>
+        Campus Tech participates in the Amazon Services LLC Associates Program and similar affiliate
+        advertising programs. When you click an affiliate link on our site and make a purchase, we earn
+        a small commission at no additional cost to you. Amazon and other retailers may collect data
+        about your visit and purchase in accordance with their own privacy policies.
+      </p>
+      <p>
+        Our affiliate relationships never influence our editorial opinions or product recommendations.
+        We only recommend products we have tested and believe are genuinely good value.
+      </p>
+
+      <h2>Third-Party Services</h2>
+      <p>We use the following third-party services, each with their own privacy policies:</p>
+      <ul>
+        <li><strong>Netlify</strong> — Hosts this website and processes contact form submissions. <a href="https://www.netlify.com/privacy/" rel="noopener noreferrer" target="_blank">Netlify Privacy Policy</a></li>
+        <li><strong>Google Fonts</strong> — Serves the Inter typeface used on this site. <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a></li>
+        <li><strong>Amazon</strong> — Processes purchases made through our affiliate links. <a href="https://www.amazon.com/gp/help/customer/display.html?nodeId=468496" rel="noopener noreferrer" target="_blank">Amazon Privacy Notice</a></li>
+      </ul>
+
+      <h2>Children's Privacy</h2>
+      <p>
+        Our site is not directed at children under 13 years of age. We do not knowingly collect
+        personal information from children under 13.
+      </p>
+
+      <h2>Your Rights</h2>
+      <p>
+        If you have submitted a contact form message and wish to have that data deleted, or if you
+        have any questions about this privacy policy, please contact us at the address on our
+        <a href="/contact">contact page</a>.
+      </p>
+
+      <h2>Changes to This Policy</h2>
+      <p>
+        We may update this privacy policy from time to time. Any changes will be posted on this page
+        with an updated date. Continued use of the site after changes constitutes acceptance of the
+        updated policy.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .privacy-wrap {
+    padding: 2.5rem 1.25rem 4rem;
+    max-width: 760px;
+  }
+  .page-header { margin-bottom: 2.5rem; }
+  .last-updated {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+  .privacy-prose h2 { margin: 2rem 0 0.75rem; }
+  .privacy-prose ul { margin: 0.5rem 0 1rem 1.5rem; }
+  .privacy-prose li { margin-bottom: 0.4rem; }
+</style>
