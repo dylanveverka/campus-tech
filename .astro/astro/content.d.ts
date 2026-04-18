@@ -189,9 +189,23 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-desk-accessories-college-students.mdx": {
+	id: "best-desk-accessories-college-students.mdx";
+  slug: "best-desk-accessories-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-desk-setup-college-students-budget.mdx": {
 	id: "best-desk-setup-college-students-budget.mdx";
   slug: "best-desk-setup-college-students-budget";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-gaming-laptop-college-students.mdx": {
+	id: "best-gaming-laptop-college-students.mdx";
+  slug: "best-gaming-laptop-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -210,9 +224,30 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-kindle-college-students.mdx": {
+	id: "best-kindle-college-students.mdx";
+  slug: "best-kindle-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-laptop-college-students-under-1000.mdx": {
 	id: "best-laptop-college-students-under-1000.mdx";
   slug: "best-laptop-college-students-under-1000";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-laptop-computer-science-students.mdx": {
+	id: "best-laptop-computer-science-students.mdx";
+  slug: "best-laptop-computer-science-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-laptop-engineering-students.mdx": {
+	id: "best-laptop-engineering-students.mdx";
+  slug: "best-laptop-engineering-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
