@@ -5,15 +5,36 @@ import AffiliateButton from '../components/AffiliateButton.astro';
 import { getCollection } from 'astro:content';
 
 const allReviews = await getCollection('reviews');
-const featuredReviews = allReviews
-  .filter(r => r.data.featured)
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const allGuides  = await getCollection('guides');
 
-const latestReviews = allReviews
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-  .slice(0, 6);
+// Unified article feed for homepage sections
+const allArticles = [
+  ...allReviews.map(r => ({
+    slug: r.slug, type: 'review' as const,
+    href: `/reviews/${r.slug}`,
+    name: r.data.title.split(':')[0],
+    image: r.data.image, category: r.data.category,
+    rating: r.data.rating, verdict: r.data.verdict,
+    price: r.data.price, asin: r.data.asin,
+    affiliateUrl: r.data.affiliateUrl,
+    featured: r.data.featured,
+    publishDate: r.data.publishDate,
+  })),
+  ...allGuides.map(g => ({
+    slug: g.slug, type: 'guide' as const,
+    href: `/guides/${g.slug}`,
+    name: g.data.title,
+    image: g.data.image, category: g.data.category,
+    description: g.data.description,
+    featured: g.data.featured,
+    publishDate: g.data.publishDate,
+  })),
+].sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
 
-const allGuides = await getCollection('guides');
+const featuredArticles = allArticles.filter(a => a.featured).slice(0, 3);
+const latestArticles   = allArticles.slice(0, 6);
+
+// Buying guides promo — 3 most recent guides
 const featuredGuides = allGuides
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 3);
@@ -65,7 +86,7 @@ const topPicks = [
     <div class="container">
       <div class="section-header">
         <h2>Top Picks Right Now</h2>
-        <a href="/reviews" class="section-link">View all reviews →</a>
+        <a href="/reviews" class="section-link">View all articles →</a>
       </div>
       <div class="picks-grid">
         {topPicks.map(pick => (
@@ -84,52 +105,64 @@ const topPicks = [
     </div>
   </section>
 
-  <!-- Featured Reviews -->
-  {featuredReviews.length > 0 && (
+  <!-- Featured Articles -->
+  {featuredArticles.length > 0 && (
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <h2>Featured Reviews</h2>
-          <a href="/reviews" class="section-link">All reviews →</a>
+          <h2>Featured</h2>
+          <a href="/reviews" class="section-link">All articles →</a>
         </div>
         <div class="grid grid-3">
-          {featuredReviews.map(review => (
-            <ProductCard
-              name={review.data.title.split(':')[0]}
-              image={review.data.image}
-              rating={review.data.rating}
-              verdict={review.data.verdict}
-              price={review.data.price}
-              category={review.data.category}
-              slug={review.slug}
-              asin={review.data.asin}
-              affiliateUrl={review.data.affiliateUrl}
-            />
-          ))}
+          {'rating' in featuredArticles[0]
+            ? featuredArticles.map(a => (
+                <ProductCard
+                  name={a.name} image={a.image}
+                  category={a.category} slug={a.slug} href={a.href}
+                  rating={'rating' in a ? a.rating : undefined}
+                  verdict={'verdict' in a ? a.verdict : undefined}
+                  price={'price' in a ? a.price : undefined}
+                  asin={'asin' in a ? a.asin : undefined}
+                  affiliateUrl={'affiliateUrl' in a ? a.affiliateUrl : undefined}
+                  description={'description' in a ? a.description : undefined}
+                />
+              ))
+            : featuredArticles.map(a => (
+                <ProductCard
+                  name={a.name} image={a.image}
+                  category={a.category} slug={a.slug} href={a.href}
+                  rating={'rating' in a ? a.rating : undefined}
+                  verdict={'verdict' in a ? a.verdict : undefined}
+                  price={'price' in a ? a.price : undefined}
+                  asin={'asin' in a ? a.asin : undefined}
+                  affiliateUrl={'affiliateUrl' in a ? a.affiliateUrl : undefined}
+                  description={'description' in a ? a.description : undefined}
+                />
+              ))
+          }
         </div>
       </div>
     </section>
   )}
 
-  <!-- Latest Reviews -->
+  <!-- Latest Articles -->
   <section class="section bg-secondary-section">
     <div class="container">
       <div class="section-header">
-        <h2>Latest Reviews</h2>
-        <a href="/reviews" class="section-link">All reviews →</a>
+        <h2>Latest Articles</h2>
+        <a href="/reviews" class="section-link">View all {allArticles.length} articles →</a>
       </div>
       <div class="grid grid-3">
-        {latestReviews.map(review => (
+        {latestArticles.map(a => (
           <ProductCard
-            name={review.data.title.split(':')[0]}
-            image={review.data.image}
-            rating={review.data.rating}
-            verdict={review.data.verdict}
-            price={review.data.price}
-            category={review.data.category}
-            slug={review.slug}
-            asin={review.data.asin}
-            affiliateUrl={review.data.affiliateUrl}
+            name={a.name} image={a.image}
+            category={a.category} slug={a.slug} href={a.href}
+            rating={'rating' in a ? a.rating : undefined}
+            verdict={'verdict' in a ? a.verdict : undefined}
+            price={'price' in a ? a.price : undefined}
+            asin={'asin' in a ? a.asin : undefined}
+            affiliateUrl={'affiliateUrl' in a ? a.affiliateUrl : undefined}
+            description={'description' in a ? a.description : undefined}
           />
         ))}
       </div>

@@ -4,54 +4,103 @@ import ProductCard from '../../components/ProductCard.astro';
 import { getCollection } from 'astro:content';
 
 const allReviews = await getCollection('reviews');
-const sorted = allReviews.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const allGuides  = await getCollection('guides');
 
-const categories = [...new Set(sorted.map(r => r.data.category))].sort();
+// Unified article feed — reviews + guides, newest first
+const allArticles = [
+  ...allReviews.map(r => ({
+    slug:        r.slug,
+    type:        'review' as const,
+    href:        `/reviews/${r.slug}`,
+    name:        r.data.title.split(':')[0],
+    image:       r.data.image,
+    category:    r.data.category,
+    rating:      r.data.rating,
+    verdict:     r.data.verdict,
+    price:       r.data.price,
+    asin:        r.data.asin,
+    affiliateUrl: r.data.affiliateUrl,
+    publishDate: r.data.publishDate,
+  })),
+  ...allGuides.map(g => ({
+    slug:        g.slug,
+    type:        'guide' as const,
+    href:        `/guides/${g.slug}`,
+    name:        g.data.title,
+    image:       g.data.image,
+    category:    g.data.category,
+    description: g.data.description,
+    publishDate: g.data.publishDate,
+  })),
+].sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
+
+const categories = [...new Set(allArticles.map(a => a.category))].sort();
+const total = allArticles.length;
 ---
 
 <BaseLayout
-  title="Tech Reviews for College Students"
-  description="Honest, tested tech reviews for college students. We cover laptops, headphones, keyboards, storage, and more — focused on value for student budgets."
+  title="All Articles — Campus Tech"
+  description="Every review, roundup, and buying guide on Campus Tech. Laptops, headphones, tablets, keyboards, and more — all tested for college students."
 >
   <div class="container reviews-wrap">
     <header class="page-header">
-      <h1>Tech Reviews</h1>
-      <p>Honest reviews tested by students, for students. Focused on real-world performance and value for money.</p>
+      <h1>All Articles</h1>
+      <p>
+        {total} reviews and guides — tested for college students, focused on value for money.
+      </p>
     </header>
 
     <div class="category-filter" role="navigation" aria-label="Filter by category">
-      <button class="filter-btn active" data-filter="all">All</button>
-      {categories.map(cat => (
-        <button class="filter-btn" data-filter={cat.toLowerCase()}>{cat}</button>
-      ))}
+      <button class="filter-btn active" data-filter="all">All ({total})</button>
+      {categories.map(cat => {
+        const count = allArticles.filter(a => a.category === cat).length;
+        return (
+          <button class="filter-btn" data-filter={cat.toLowerCase()}>
+            {cat} ({count})
+          </button>
+        );
+      })}
     </div>
 
-    <div class="grid grid-3 mt-4" id="reviews-grid">
-      {sorted.map(review => (
-        <div class="review-item" data-cat={review.data.category.toLowerCase()}>
-          <ProductCard
-            name={review.data.title.split(':')[0]}
-            image={review.data.image}
-            rating={review.data.rating}
-            verdict={review.data.verdict}
-            price={review.data.price}
-            category={review.data.category}
-            slug={review.slug}
-            asin={review.data.asin}
-            affiliateUrl={review.data.affiliateUrl}
-          />
+    <div class="grid grid-3 mt-4" id="articles-grid">
+      {allArticles.map(article => (
+        <div class="article-item" data-cat={article.category.toLowerCase()}>
+          {'rating' in article ? (
+            <ProductCard
+              name={article.name}
+              image={article.image}
+              category={article.category}
+              slug={article.slug}
+              href={article.href}
+              rating={article.rating}
+              verdict={article.verdict}
+              price={article.price}
+              asin={article.asin}
+              affiliateUrl={article.affiliateUrl}
+            />
+          ) : (
+            <ProductCard
+              name={article.name}
+              image={article.image}
+              category={article.category}
+              slug={article.slug}
+              href={article.href}
+              description={article.description}
+            />
+          )}
         </div>
       ))}
     </div>
 
-    <p class="no-results" id="no-results" hidden>No reviews found in this category yet.</p>
+    <p class="no-results" id="no-results" hidden>No articles found in this category.</p>
   </div>
 </BaseLayout>
 
 <style>
   .reviews-wrap { padding: 2.5rem 1.25rem 4rem; }
   .page-header { margin-bottom: 2rem; }
-  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin-top: 0.5rem; }
+  .page-header h1 { margin-bottom: 0.4rem; }
+  .page-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 60ch; margin: 0; }
 
   .category-filter {
     display: flex;
@@ -81,8 +130,8 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
     color: #fff;
   }
 
-  .review-item { display: contents; }
-  .review-item.hidden { display: none; }
+  .article-item { display: contents; }
+  .article-item.hidden { display: none; }
 
   .no-results {
     text-align: center;
@@ -93,8 +142,8 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
 </style>
 
 <script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const items = document.querySelectorAll<HTMLElement>('.review-item');
+  const buttons  = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items    = document.querySelectorAll<HTMLElement>('.article-item');
   const noResults = document.getElementById('no-results') as HTMLElement;
 
   function applyFilter(cat: string) {
@@ -108,23 +157,14 @@ const categories = [...new Set(sorted.map(r => r.data.category))].sort();
     buttons.forEach(btn => {
       btn.classList.toggle('active', btn.dataset.filter === cat);
     });
-    // Update URL without navigating
     const url = new URL(window.location.href);
-    if (cat === 'all') {
-      url.searchParams.delete('category');
-    } else {
-      url.searchParams.set('category', cat);
-    }
+    if (cat === 'all') url.searchParams.delete('category');
+    else url.searchParams.set('category', cat);
     history.replaceState(null, '', url.toString());
   }
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      applyFilter(btn.dataset.filter ?? 'all');
-    });
-  });
+  buttons.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.filter ?? 'all')));
 
-  // Apply filter from URL on load (handles footer deep links)
-  const initialCat = new URL(window.location.href).searchParams.get('category') ?? 'all';
-  if (initialCat !== 'all') applyFilter(initialCat);
+  const init = new URL(window.location.href).searchParams.get('category');
+  if (init) applyFilter(init);
 </script>
