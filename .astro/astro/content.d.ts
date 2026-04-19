@@ -189,6 +189,20 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-budget-laptop-under-500-college.mdx": {
+	id: "best-budget-laptop-under-500-college.mdx";
+  slug: "best-budget-laptop-under-500-college";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-cable-management-desk-setup-college.mdx": {
+	id: "best-cable-management-desk-setup-college.mdx";
+  slug: "best-cable-management-desk-setup-college";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-chromebook-college-students.mdx": {
 	id: "best-chromebook-college-students.mdx";
   slug: "best-chromebook-college-students";
@@ -199,6 +213,13 @@ declare module 'astro:content' {
 "best-desk-accessories-college-students.mdx": {
 	id: "best-desk-accessories-college-students.mdx";
   slug: "best-desk-accessories-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-desk-lamp-college-students.mdx": {
+	id: "best-desk-lamp-college-students.mdx";
+  slug: "best-desk-lamp-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -283,6 +304,13 @@ declare module 'astro:content' {
 "best-laptop-engineering-students.mdx": {
 	id: "best-laptop-engineering-students.mdx";
   slug: "best-laptop-engineering-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-laptop-nursing-students.mdx": {
+	id: "best-laptop-nursing-students.mdx";
+  slug: "best-laptop-nursing-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -378,6 +406,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-wireless-earbuds-under-50.mdx": {
+	id: "best-wireless-earbuds-under-50.mdx";
+  slug: "best-wireless-earbuds-under-50";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-wireless-mouse-college-students.mdx": {
 	id: "best-wireless-mouse-college-students.mdx";
   slug: "best-wireless-mouse-college-students";
@@ -388,6 +423,13 @@ declare module 'astro:content' {
 "dorm-room-tech-essentials-college-students.mdx": {
 	id: "dorm-room-tech-essentials-college-students.mdx";
   slug: "dorm-room-tech-essentials-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"macbook-air-m2-vs-m3-upgrade.mdx": {
+	id: "macbook-air-m2-vs-m3-upgrade.mdx";
+  slug: "macbook-air-m2-vs-m3-upgrade";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
