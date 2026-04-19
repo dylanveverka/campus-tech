@@ -350,6 +350,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-monitor-arm-college-students.mdx": {
+	id: "best-monitor-arm-college-students.mdx";
+  slug: "best-monitor-arm-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-monitor-college-students-under-300.mdx": {
 	id: "best-monitor-college-students-under-300.mdx";
   slug: "best-monitor-college-students-under-300";
@@ -364,9 +371,23 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-monitor-under-200-college-students.mdx": {
+	id: "best-monitor-under-200-college-students.mdx";
+  slug: "best-monitor-under-200-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-printer-college-students.mdx": {
 	id: "best-printer-college-students.mdx";
   slug: "best-printer-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-productivity-apps-college-students.mdx": {
+	id: "best-productivity-apps-college-students.mdx";
+  slug: "best-productivity-apps-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -388,6 +409,13 @@ declare module 'astro:content' {
 "best-usb-hub-college-students.mdx": {
 	id: "best-usb-hub-college-students.mdx";
   slug: "best-usb-hub-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-vpn-college-students.mdx": {
+	id: "best-vpn-college-students.mdx";
+  slug: "best-vpn-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
