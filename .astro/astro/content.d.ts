@@ -238,9 +238,30 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-ipad-keyboard-case-college-students.mdx": {
+	id: "best-ipad-keyboard-case-college-students.mdx";
+  slug: "best-ipad-keyboard-case-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-kindle-college-students.mdx": {
 	id: "best-kindle-college-students.mdx";
   slug: "best-kindle-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-laptop-backpack-college-students.mdx": {
+	id: "best-laptop-backpack-college-students.mdx";
+  slug: "best-laptop-backpack-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-laptop-business-students-college.mdx": {
+	id: "best-laptop-business-students-college.mdx";
+  slug: "best-laptop-business-students-college";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -287,9 +308,30 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-microphone-college-students.mdx": {
+	id: "best-microphone-college-students.mdx";
+  slug: "best-microphone-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-mini-fridge-dorm-room.mdx": {
+	id: "best-mini-fridge-dorm-room.mdx";
+  slug: "best-mini-fridge-dorm-room";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-monitor-college-students-under-300.mdx": {
 	id: "best-monitor-college-students-under-300.mdx";
   slug: "best-monitor-college-students-under-300";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-monitor-gaming-studying-college.mdx": {
+	id: "best-monitor-gaming-studying-college.mdx";
+  slug: "best-monitor-gaming-studying-college";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
@@ -329,9 +371,23 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-white-noise-machine-dorm-room.mdx": {
+	id: "best-white-noise-machine-dorm-room.mdx";
+  slug: "best-white-noise-machine-dorm-room";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-wireless-mouse-college-students.mdx": {
 	id: "best-wireless-mouse-college-students.mdx";
   slug: "best-wireless-mouse-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"dorm-room-tech-essentials-college-students.mdx": {
+	id: "dorm-room-tech-essentials-college-students.mdx";
+  slug: "dorm-room-tech-essentials-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">
