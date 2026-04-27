@@ -203,6 +203,13 @@ declare module 'astro:content' {
   collection: "guides";
   data: InferEntrySchema<"guides">
 } & { render(): Render[".mdx"] };
+"best-calculator-college-students.mdx": {
+	id: "best-calculator-college-students.mdx";
+  slug: "best-calculator-college-students";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
 "best-chromebook-college-students.mdx": {
 	id: "best-chromebook-college-students.mdx";
   slug: "best-chromebook-college-students";
@@ -227,6 +234,13 @@ declare module 'astro:content' {
 "best-desk-setup-college-students-budget.mdx": {
 	id: "best-desk-setup-college-students-budget.mdx";
   slug: "best-desk-setup-college-students-budget";
+  body: string;
+  collection: "guides";
+  data: InferEntrySchema<"guides">
+} & { render(): Render[".mdx"] };
+"best-drawing-tablet-college-students.mdx": {
+	id: "best-drawing-tablet-college-students.mdx";
+  slug: "best-drawing-tablet-college-students";
   body: string;
   collection: "guides";
   data: InferEntrySchema<"guides">

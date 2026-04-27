@@ -9,4 +9,5 @@ export default defineConfig({
       theme: 'github-light',
     },
   },
+  trailingSlash: 'never',
 });
